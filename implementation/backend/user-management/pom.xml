@@ -14,7 +14,7 @@
 	<name>User Management Service</name>
 	<description>User Management service for Matjar e-commerce platform</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
