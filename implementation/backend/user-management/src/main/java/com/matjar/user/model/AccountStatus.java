@@ -1,6 +1,6 @@
 package com.matjar.user.model;
 
-public enum UserStatus {
+public enum AccountStatus {
     ACTIVE,
     INACTIVE,
     PENDING_ACTIVATION

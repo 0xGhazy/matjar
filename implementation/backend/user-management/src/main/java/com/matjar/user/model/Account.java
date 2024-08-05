@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class User {
+public class Account {
     @Id
     private String id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private UserStatus status;
+    private AccountStatus status;
     private LocalDateTime lastLoginTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
