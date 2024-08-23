@@ -1,14 +1,13 @@
 package com.matjar.user.controller;
 
 
-import com.matjar.user.model.Configuration;
 import com.matjar.user.service.ConfigurationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/configuration")
@@ -22,7 +21,7 @@ public class ConfigurationController {
 
     @GetMapping("")
     public ResponseEntity<?> getConfigurations() {
-        List<Configuration> configurations = configurationService.loadConfigurations();
+        Map<String, String> configurations = configurationService.loadConfigurations();
         return ResponseEntity.ok(configurations);
     }
 

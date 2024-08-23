@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -19,11 +21,13 @@ public class ConfigurationService {
     private ConfigurationRepository repository;
 
     @Cacheable("configurations")
-    public List<Configuration> loadConfigurations() {
+    public Map<String, String> loadConfigurations() {
         List<Configuration> loadedConfigurations = repository.findAll();
+        Map<String, String> configurationMap = loadedConfigurations.stream()
+                .collect(Collectors.toMap(Configuration::getName, Configuration::getValue));
         log.info("method=loadConfigurations, configurationRecordCount={}, message={}",
                  loadedConfigurations.size(), "configuration loaded successfully into configurations cache");
-        return loadedConfigurations;
+        return configurationMap;
     }
 
     @CacheEvict(value = "configurations", allEntries = true)
@@ -31,4 +35,9 @@ public class ConfigurationService {
         log.info("method=refreshCache, message={}", "'configuration' cache refreshed successfully");
     }
 
+
+    public String getConfiguration(String name){
+        Map<String, String> configurations = loadConfigurations();
+        return configurations.get(name);
+    }
 }
