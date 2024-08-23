@@ -1,4 +1,4 @@
-package com.matjar.user.model;
+package com.matjar.user.enums;
 
 public enum AccountStatus {
     ACTIVE,
