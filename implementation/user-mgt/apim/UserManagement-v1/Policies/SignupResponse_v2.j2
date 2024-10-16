@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="signup_response" xmlns="http://ws.apache.org/ns/synapse">
+
+    <enrich>
+        <source clone="true" type="body"/>
+        <target property="ORIGINAL_PL" type="property"/>
+    </enrich>
+
+    <log level="custom">
+        <property name="requestURL" expression="get-property('uri')" type="STRING"/>
+        <property name="RequestType" value="signup_response received"/>
+        <property name="BackendPayload" expression="get-property('ORIGINAL_PL')"/>
+        <property name="BackendStatusCode" expression="get-property('axis2', 'HTTP_SC')" />
+    </log>
+
+    <switch source="$axis2:HTTP_SC" xmlns:ns="http://org.apache.synapse/xsd">
+        <case regex="200" />
+
+        <case regex="^(4|5)[0-9]{2}$">
+            <filter source="json-eval($.message)" regex=".+">
+                <then>
+                    <filter source="json-eval($.details)" regex=".+">
+                        <then>
+                            <payloadFactory media-type="json">
+                                <format>
+                                    {
+                                        "reason": "$1",
+                                        "message": "$2",
+                                        "details": "$3"
+                                    }
+                                </format>
+                                <args>
+                                    <arg evaluator="json" expression="$.reason"/>
+                                    <arg evaluator="json" expression="$.message"/>
+                                    <arg evaluator="json" expression="$.details"/>
+                                </args>
+                            </payloadFactory>
+                        </then>
+                        <else>
+                            <payloadFactory media-type="json">
+                                <format>
+                                    {
+                                        "reason": "$1",
+                                        "message": "$2"
+                                    }
+                                </format>
+                                <args>
+                                    <arg evaluator="json" expression="$.reason"/>
+                                    <arg evaluator="json" expression="$.message"/>
+                                </args>
+                            </payloadFactory>
+                        </else>
+                    </filter>
+                </then>
+                <else>
+                    <payloadFactory media-type="json">
+                        <format>
+                            {
+                                "reason": "$1"
+                            }
+                        </format>
+                        <args>
+                            <arg evaluator="json" expression="$.reason"/>
+                        </args>
+                    </payloadFactory>
+                </else>
+            </filter>
+        </case>
+    </switch>
+
+    <property name="ContentType" value="application/json" scope="axis2" type="STRING"/>
+
+    <enrich description="Save the PL">
+        <source clone="true" type="body"/>
+        <target property="MEDIATED_PL" type="property"/>
+    </enrich>
+
+    <log level="custom">
+        <property name="RequestType" value="signup_response mediated"/>
+        <property name="MediatedPayload" expression="get-property('MEDIATED_PL')"/>
+        <property name="APIMStatusCode" expression="get-property('axis2', 'HTTP_SC')" />
+    </log>
+
+</sequence>

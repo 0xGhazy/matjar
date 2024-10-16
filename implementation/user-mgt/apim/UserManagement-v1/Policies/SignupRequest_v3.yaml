@@ -1,0 +1,15 @@
+type: operation_policy_specification
+version: v4.2.0
+data:
+  category: Mediation
+  name: SignupRequest
+  version: v3
+  displayName: SignupRequest
+  description: ""
+  applicableFlows:
+   - request
+  supportedGateways:
+   - Synapse
+  supportedApiTypes:
+   - HTTP
+  policyAttributes: []

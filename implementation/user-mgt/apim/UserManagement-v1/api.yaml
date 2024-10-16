@@ -1,0 +1,104 @@
+type: api
+version: v4.2.0
+data:
+  id: 155139a9-3615-4490-9789-7005f4769363
+  name: UserManagement
+  context: /user-management
+  version: v1
+  provider: admin
+  lifeCycleStatus: PUBLISHED
+  responseCachingEnabled: false
+  cacheTimeout: 300
+  hasThumbnail: false
+  isDefaultVersion: false
+  isRevision: false
+  revisionId: 0
+  enableSchemaValidation: false
+  enableSubscriberVerification: false
+  type: HTTP
+  transport:
+    - http
+    - https
+  tags: []
+  policies:
+    - Unlimited
+  authorizationHeader: Authorization
+  securityScheme:
+    - oauth2
+    - oauth_basic_auth_api_key_mandatory
+  visibility: PUBLIC
+  visibleRoles: []
+  visibleTenants: []
+  mediationPolicies: []
+  subscriptionAvailability: CURRENT_TENANT
+  subscriptionAvailableTenants: []
+  additionalProperties: []
+  additionalPropertiesMap: {}
+  accessControl: NONE
+  accessControlRoles: []
+  businessInformation: {}
+  corsConfiguration:
+    corsConfigurationEnabled: false
+    accessControlAllowOrigins:
+      - "*"
+    accessControlAllowCredentials: false
+    accessControlAllowHeaders:
+      - authorization
+      - Access-Control-Allow-Origin
+      - Content-Type
+      - SOAPAction
+      - apikey
+      - Internal-Key
+    accessControlAllowMethods:
+      - GET
+      - PUT
+      - POST
+      - DELETE
+      - PATCH
+      - OPTIONS
+  websubSubscriptionConfiguration:
+    enable: false
+    secret: ""
+    signingAlgorithm: SHA1
+    signatureHeader: x-hub-signature
+  createdTime: "1729106648150"
+  lastUpdatedTime: 2024-10-16 22:53:36.773
+  endpointConfig:
+    endpoint_type: http
+    sandbox_endpoints:
+      url: http://localhost:5001
+    production_endpoints:
+      url: http://localhost:5001
+  endpointImplementationType: ENDPOINT
+  scopes: []
+  operations:
+    - id: ""
+      target: /auth/signup
+      verb: POST
+      authType: None
+      throttlingPolicy: Unlimited
+      scopes: []
+      usedProductIds: []
+      operationPolicies:
+        request:
+          - policyName: SignupRequest
+            policyVersion: v3
+            policyId: 897b3364-9750-489e-abd2-95d63ff2768e
+            parameters: {}
+        response:
+          - policyName: SignupResponse
+            policyVersion: v2
+            policyId: fe02a2fc-5cc7-4ffc-82bf-3ad475fac02e
+            parameters: {}
+        fault: []
+  categories: []
+  keyManagers:
+    - all
+  advertiseInfo:
+    advertised: false
+    apiOwner: admin
+    vendor: WSO2
+  gatewayVendor: wso2
+  gatewayType: wso2/synapse
+  asyncTransportProtocols: []
+  organizationId: carbon.super
