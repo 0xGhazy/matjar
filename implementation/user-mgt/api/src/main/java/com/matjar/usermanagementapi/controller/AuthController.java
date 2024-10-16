@@ -9,6 +9,7 @@ import com.matjar.usermanagementapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class AuthController {
     @Autowired private IDGenerator idGenerator;
     @Autowired private CodeService codeService;
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> signup(@RequestBody @Valid UserDto userDto) {
         long startTime = System.currentTimeMillis();
         String trxId = idGenerator.getTransactionId();
@@ -39,7 +40,7 @@ public class AuthController {
         return new ResponseEntity<>("", HttpStatus.CREATED);
     }
 
-    @PostMapping("/activate")
+    @PostMapping(value = "/activate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> activateUser(@RequestBody @Valid ActivateUserRequest activateUserRequest){
         long startTime = System.currentTimeMillis();
         String trxId = idGenerator.getTransactionId();
@@ -53,7 +54,7 @@ public class AuthController {
         return new ResponseEntity<>("", HttpStatus.CREATED);
     }
 
-    @PostMapping("/resend-code")
+    @PostMapping(value = "/resend-code", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> resendActivationCode(@RequestParam(value = "email") String email) {
         long startTime = System.currentTimeMillis();
         String trxId = idGenerator.getTransactionId();

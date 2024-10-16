@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="signup_request" xmlns="http://ws.apache.org/ns/synapse">
+
+    <enrich>
+        <source clone="true" type="body"/>
+        <target property="ORIGINAL_PL" type="property"/>
+    </enrich>
+    <log level="custom">
+        <property name="RequestURI" expression="get-property('REST_FULL_REQUEST_PATH')" />
+        <property name="RequestType" value="signup_request received"/>
+        <property name="Payload" expression="get-property('ORIGINAL_PL')"/>
+    </log>
+
+    <payloadFactory media-type="json">
+        <format>
+            {
+                "firstName" : "$1",
+                "lastName" : "$2",
+                "email" : "$3",
+                "password": "$4",
+                "phone" : "$5",
+                "gender" : "$6",
+                "dateOfBirth" : "$7"
+            }
+        </format>
+        <args>
+            <arg evaluator="json" expression="$.firstName" />
+            <arg evaluator="json" expression="$.lastName" />
+            <arg evaluator="json" expression="$.email" />
+            <arg evaluator="json" expression="$.password" />
+            <arg evaluator="json" expression="$.phone" />
+            <arg evaluator="json" expression="$.gender" />
+            <arg evaluator="json" expression="$.dateOfBirth" />
+        </args>
+    </payloadFactory>
+
+    <property name="REST_URL_POSTFIX" scope="axis2" value="/matjar/user-mgt/api/v1/auth/signup" />
+
+    <enrich description="Save the PL">
+        <source clone="true" type="body"/>
+        <target property="MEDIATED_PL" type="property"/>
+    </enrich>
+    <property name="backEndURLPostfix" expression="$axis2:REST_URL_POSTFIX"/>
+    <log level="custom">
+        <property name="RequestType" value="signup_request mediated"/>
+        <property name="Payload" expression="get-property('MEDIATED_PL')"/>
+        <property name="BackEndURLPostfix" expression="get-property('backEndURLPostfix')"/>
+    </log>
+
+</sequence>

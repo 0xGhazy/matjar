@@ -1,0 +1,144 @@
+openapi: 3.0.1
+info:
+  title: Matjar User Management API
+  description: |
+    The Matjar User Management API provides a set of endpoints to manage user accounts on the Matjar platform. It is designed to handle user registration, authentication, and account management, allowing seamless integration with the Matjar ecosystem.
+
+    ## Purpose
+    This API is primarily used for handling user operations such as sign-up, login, account activation, and password management. It ensures that the platform can onboard new users efficiently, manage their profiles, and verify their identities through secure activation codes.
+
+    ## Features
+    - **User Registration**: Allows new users to register on the platform by providing their email, password, and other personal details.
+    - **Account Activation**: After registering, users receive an activation code via email, which they must use to verify their accounts.
+    - **Authentication:** Provides secure login functionality to authenticate users.
+    - **Profile Management**: Users can update their personal information such as their name and email.
+    - **Password Management**: Supports password reset and change operations to maintain account security.
+    Authentication & Security
+    The API is protected by OAuth 2.0, ensuring secure access to user-related operations. Users are required to authenticate using a token to perform sensitive actions such as updating profile information or resetting their passwords.
+
+    ## Responses
+    The API returns structured JSON responses for easy consumption by client applications, with appropriate HTTP status codes to indicate success or failure:
+
+    - **2xx**: Success responses, including user creation, account activation, etc.
+    - **4xx**: Client errors, such as invalid input or unauthorized access.
+    - **5xx**: Server errors, indicating an issue on the platform side.
+    Usage
+
+    This API is intended for use by client applications that need to manage user accounts on the Matjar platform. Whether integrating with mobile apps, web applications, or other services, the endpoints are designed to be flexible and easy to integrate.
+  version: v1
+servers:
+  - url: "http://localhost:8285/user-mgt/v1"
+security:
+  - default: []
+paths:
+  /auth/signup:
+    post:
+      summary: "Create a new user account on the Matjar platform"
+      description: |
+        This endpoint allows clients to register a new user on the Matjar platform. 
+        It accepts user details such as email, password, and other profile information to create a new account. 
+        Upon successful registration, an activation code is sent to the user's email for account verification.
+
+        ### Request Body:
+        - **email**: The email address of the user to be registered.
+        - **password**: The password for the user's account.
+        - **firstName**: The user's first name.
+        - **lastName**: The user's last name.
+
+        ### Responses:
+        - **201 Created**: The user account has been created successfully, and an activation code has been sent to the email.
+        - **400 Bad Request**: Invalid input, such as missing required fields or email already in use.
+        - **500 Internal Server Error**: An error occurred on the server while processing the request.
+
+        Use this endpoint to initiate the sign-up process and send a confirmation email to the user.
+      parameters: []
+      requestBody:
+        description: "User signup request body"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "doe.john@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "your password"
+                firstName:
+                  type: string
+                  example: "John"
+                lastName:
+                  type: string
+                  example: "Doe"
+                phone:
+                  type: string
+                  example: "01000000000"
+                gender:
+                  enum:
+                    - MALE
+                    - FEMALE
+                  example: "MALE"
+                dateOfBirth:
+                  type: string
+                  example: "1990-01-01"
+      responses:
+        "201":
+          description: "The user account has been created successfully."
+        "400":
+          description: "Invalid input or email already in use."
+        "500":
+          description: "Internal server error."
+      security:
+        - default: []
+      x-auth-type: None
+      x-throttling-tier: Unlimited
+      x-wso2-application-security:
+        security-types:
+          - oauth2
+        optional: false
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://test.com
+          scopes: {}
+x-wso2-auth-header: Authorization
+x-wso2-cors:
+  corsConfigurationEnabled: false
+  accessControlAllowOrigins:
+    - "*"
+  accessControlAllowCredentials: false
+  accessControlAllowHeaders:
+    - authorization
+    - Access-Control-Allow-Origin
+    - Content-Type
+    - SOAPAction
+    - apikey
+    - Internal-Key
+  accessControlAllowMethods:
+    - GET
+    - PUT
+    - POST
+    - DELETE
+    - PATCH
+    - OPTIONS
+x-wso2-production-endpoints:
+  urls:
+    - http://localhost:5001
+  type: http
+x-wso2-sandbox-endpoints:
+  urls:
+    - http://localhost:5001
+  type: http
+x-wso2-basePath: /user-mgt/v1
+x-wso2-transports:
+  - http
+  - https
+x-wso2-response-cache:
+  enabled: false
