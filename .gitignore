@@ -1,0 +1,63 @@
+# Created by https://www.gitignore.io/api/git,java,maven,eclipse,windows
+
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Dump file
+*.stackdump
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+user-mgt.run.xml
+
+### VS Code ###
+.vscode/
+
+### Some additional ignores (sort later)
+*.DS_Store
+*.sw?
+.#*
+*#
+*~
+.classpath
+.project
+.settings
+bin
+build
+target
+dependency-reduced-pom.xml
+*.sublime-*
+/scratch
+.gradle
+README.html
+*.iml
+.idea
+.exercism
+
+# My ignores
+*.TODO
+/logs
+application.properties
